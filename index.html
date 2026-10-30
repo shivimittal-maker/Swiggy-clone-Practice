@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Discover Indian restaurants and order your favourite food.">
+    <title>Swiggy - Indian food delivery</title>
+    <style>
+        :root {
+            --orange: #fc8019;
+            --ink: #282c3f;
+            --muted: #686b78;
+            --line: #e9e9eb;
+            --page-width: 1160px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(var(--page-width), calc(100% - 48px));
+            margin: 0 auto;
+        }
+
+        .topbar {
+            height: 88px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 28px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--orange);
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .brand-image {
+            width: 48px;
+            height: 48px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 34px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            color: var(--orange);
+        }
+
+        .app-link::before {
+            content: "↗";
+            margin-right: 7px;
+            color: var(--orange);
+        }
+
+        .sign-in {
+            padding: 12px 22px;
+            border: 0;
+            border-radius: 8px;
+            background: var(--ink);
+            color: white;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .hero {
+            overflow: hidden;
+            background: #fff7f0;
+        }
+
+        .hero-content {
+            min-height: 430px;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .hero-copy {
+            padding: 56px 0;
+        }
+
+        .eyebrow {
+            margin: 0 0 14px;
+            color: var(--orange);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            max-width: 580px;
+            margin: 0;
+            font-size: clamp(38px, 5vw, 58px);
+            line-height: 1.08;
+            letter-spacing: -2px;
+        }
+
+        .hero-copy > p:not(.eyebrow) {
+            margin: 18px 0 28px;
+            color: var(--muted);
+            font-size: 17px;
+            line-height: 1.6;
+        }
+
+        .search-form {
+            display: flex;
+            max-width: 570px;
+            min-height: 58px;
+            padding: 5px;
+            border: 1px solid #dedee2;
+            border-radius: 9px;
+            background: white;
+            box-shadow: 0 8px 24px rgb(40 44 63 / 7%);
+        }
+
+        .search-form input {
+            min-width: 0;
+            flex: 1;
+            padding: 0 14px;
+            border: 0;
+            outline: 0;
+            color: var(--ink);
+            font: inherit;
+        }
+
+        .search-form input::placeholder {
+            color: #92949f;
+        }
+
+        .search-form button {
+            padding: 0 20px;
+            border: 0;
+            border-radius: 6px;
+            background: var(--orange);
+            color: white;
+            font: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .food-art {
+            position: relative;
+            display: grid;
+            min-height: 360px;
+            place-items: center;
+        }
+
+        .food-circle {
+            width: min(310px, 70vw);
+            aspect-ratio: 1;
+            display: block;
+            border: 18px solid rgb(252 128 25 / 13%);
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 20px 50px rgb(155 89 34 / 12%);
+        }
+
+        .floating-food {
+            position: absolute;
+            display: grid;
+            width: 72px;
+            height: 72px;
+            place-items: center;
+            border-radius: 20px;
+            background: white;
+            font-size: 36px;
+            box-shadow: 0 12px 28px rgb(40 44 63 / 12%);
+            object-fit: cover;
+        }
+
+        .floating-food.one {
+            top: 38px;
+            left: 12%;
+            transform: rotate(-12deg);
+        }
+
+        .floating-food.two {
+            right: 7%;
+            bottom: 45px;
+            transform: rotate(12deg);
+        }
+
+        .section {
+            padding: 54px 0 20px;
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .section-heading h2 {
+            margin: 0;
+            font-size: 26px;
+            letter-spacing: -0.6px;
+        }
+
+        .section-heading p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .category-card {
+            padding: 20px 12px;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 160ms ease, box-shadow 160ms ease;
+        }
+
+        .category-card:hover,
+        .restaurant-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 24px rgb(40 44 63 / 8%);
+        }
+
+        .category-icon {
+            display: block;
+            width: 100%;
+            height: 105px;
+            object-fit: cover;
+            margin-bottom: 11px;
+            border-radius: 8px;
+        }
+
+        .category-card strong {
+            font-size: 14px;
+        }
+
+        .restaurants {
+            padding-bottom: 70px;
+        }
+
+        .restaurant-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .restaurant-card {
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: 13px;
+            transition: transform 160ms ease, box-shadow 160ms ease;
+        }
+
+        .restaurant-art {
+            min-height: 150px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, #ffe1c1, #fff2df);
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+        }
+
+        .restaurant-card:nth-child(2) .restaurant-art {
+            background: linear-gradient(135deg, #f8d7c8, #fff0e9);
+        }
+
+        .restaurant-card:nth-child(3) .restaurant-art {
+            background: linear-gradient(135deg, #e1edcf, #f2f7e9);
+        }
+
+        .restaurant-info {
+            padding: 16px;
+        }
+
+        .restaurant-info h3 {
+            margin: 0 0 8px;
+            font-size: 17px;
+        }
+
+        .restaurant-info p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .restaurant-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 14px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .rating {
+            padding: 5px 7px;
+            border-radius: 5px;
+            background: #267e3e;
+            color: white;
+        }
+
+        footer {
+            padding: 24px 0;
+            background: rgb(243, 235, 235);
+            color: var(--muted);
+            font-size: 13px;
+            text-align: center;
+        }
+
+        @media (max-width: 760px) {
+            .container {
+                width: min(100% - 32px, var(--page-width));
+            }
+
+            .topbar {
+                height: 72px;
+            }
+
+            .nav-links {
+                gap: 16px;
+            }
+
+            .nav-links a:not(.app-link),
+            .app-link {
+                display: none;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .hero-copy {
+                padding: 46px 0 0;
+            }
+
+            .food-art {
+                min-height: 275px;
+            }
+
+            .food-circle {
+                width: 230px;
+                font-size: 125px;
+            }
+
+            .floating-food {
+                width: 58px;
+                height: 58px;
+                font-size: 29px;
+            }
+
+            .category-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 12px;
+            }
+
+            .restaurant-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .sign-in {
+                padding: 10px 14px;
+            }
+
+            .search-form input {
+                padding: 0 8px;
+                font-size: 13px;
+            }
+
+            .search-form button {
+                padding: 0 12px;
+                font-size: 12px;
+            }
+
+            .section-heading {
+                align-items: start;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="container topbar">
+        <a class="brand" href="#" aria-label="Swiggy home page">
+            <img class="brand-image" src="https://mcp.swiggy.com/builders/_next/static/media/swiggy-square.7cc98075.jpg" alt="Swiggy logo">
+            <span>Swiggy</span>
+        </a>
+        <nav class="nav-links" aria-label="Main navigation">
+            <a href="#restaurants">Swiggy Corporate</a>
+            <a href="#restaurants">Partner with us</a>
+            <a class="app-link" href="#categories">Get the app</a>
+            <button class="sign-in" type="button">Sign in</button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container hero-content">
+                <div class="hero-copy">
+                    <p class="eyebrow">A taste of India, delivered</p>
+                    <h1>Discover delicious Indian food near you.</h1>
+                    <p>From comforting biryani to crisp dosas, find your favourites and get them delivered to your door.</p>
+                    <form class="search-form" role="search" action="#">
+                        <input type="search" aria-label="Enter your delivery location" placeholder="Enter your delivery location">
+                        <button type="submit">Find food</button>
+                    </form>
+                </div>
+                <div class="food-art" aria-hidden="true">
+                    <img class="floating-food one" src="https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&amp;fit=crop&amp;w=160&amp;h=160&amp;q=85" alt="Indian curry">
+                    <img class="food-circle" src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&amp;fit=crop&amp;w=700&amp;h=700&amp;q=90" alt="Indian thali with curries, rice and breads">
+                    <img class="floating-food two" src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&amp;fit=crop&amp;w=160&amp;h=160&amp;q=85" alt="Chicken biryani">
+                </div>
+            </div>
+        </section>
+
+        <section class="container section" id="categories">
+            <div class="section-heading">
+                <h2>What's on your mind?</h2>
+            </div>
+            <div class="category-grid">
+                <a class="category-card" href="#restaurants"><img class="category-icon" src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&amp;fit=crop&amp;w=400&amp;h=260&amp;q=85" alt="Biryani"><strong>Biryani</strong></a>
+                <a class="category-card" href="#restaurants"><img class="category-icon" src="https://images.unsplash.com/photo-1630383249896-424e482df921?auto=format&amp;fit=crop&amp;w=400&amp;h=260&amp;q=85" alt="Masala dosa"><strong>Dosa</strong></a>
+                <a class="category-card" href="#restaurants"><img class="category-icon" src="https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&amp;fit=crop&amp;w=400&amp;h=260&amp;q=85" alt="Indian curry"><strong>Curry</strong></a>
+                <a class="category-card" href="#restaurants"><img class="category-icon" src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&amp;fit=crop&amp;w=400&amp;h=260&amp;q=85" alt="Samosas"><strong>Snacks</strong></a>
+                <a class="category-card" href="#restaurants"><img class="category-icon" src="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&amp;fit=crop&amp;w=400&amp;h=260&amp;q=85" alt="Indian thali"><strong>Thalis</strong></a>
+                <a class="category-card" href="#restaurants"><img class="category-icon" src="https://images.unsplash.com/photo-1681476747916-8a8fc7e2001e?auto=format&amp;fit=crop&amp;w=400&amp;h=260&amp;q=85" alt="Gulab jamun in syrup"><strong>Sweets</strong></a>
+            </div>
+        </section>
+
+        <section class="container section restaurants" id="restaurants">
+            <div class="section-heading">
+                <h2>Top restaurant chains in Meerut</h2>
+            </div>
+            <div class="restaurant-grid">
+                <article class="restaurant-card">
+                    <img class="restaurant-art" src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&amp;fit=crop&amp;w=800&amp;h=420&amp;q=85" alt="Chicken biryani served with accompaniments">
+                    <div class="restaurant-info">
+                        <h3>Hyderabadi Chicken Biryani</h3>
+                        <p>Hyderabadi · Biryani · Mughlai</p>
+                        <div class="restaurant-meta"><span class="rating">★ 4.8</span><span>25–35 min</span></div>
+                    </div>
+                </article>
+                <article class="restaurant-card">
+                    <img class="restaurant-art" src="https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&amp;fit=crop&amp;w=800&amp;h=420&amp;q=85" alt="Indian paneer curry">
+                    <div class="restaurant-info">
+                        <h3>Paneer Butter Masala</h3>
+                        <p>North Indian · Paneer · Curry</p>
+                        <div class="restaurant-meta"><span class="rating">★ 4.6</span><span>30–40 min</span></div>
+                    </div>
+                </article>
+                <article class="restaurant-card">
+                    <img class="restaurant-art" src="https://images.unsplash.com/photo-1630383249896-424e482df921?auto=format&amp;fit=crop&amp;w=800&amp;h=420&amp;q=85" alt="Masala dosa with chutneys">
+                    <div class="restaurant-info">
+                        <h3>Masala Dosa</h3>
+                        <p>South Indian · Dosa · Vegetarian</p>
+                        <div class="restaurant-meta"><span class="rating">★ 4.7</span><span>20–30 min</span></div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">Made for food lovers · Swiggy-inspired demo page</div>
+    </footer>
+</body>
+</html>
